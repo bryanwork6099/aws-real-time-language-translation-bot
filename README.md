@@ -256,25 +256,6 @@ Through this project, I gained practical experience in:
 - Configuring IAM roles and permissions for AWS service integration.
 - Developing serverless applications using managed AWS services.
 
-## 📁 Repository Structure
-
-```text
-aws-real-time-language-translation-bot/
-│
-├── README.md
-│
-├── docs/
-│   ├── lambda_function.py
-│   └── test-event.json
-│
-└── images/
-    ├── Language-Translate-Bot-Topology.png
-    ├── french-translation.png
-    ├── japanese-translation.png
-    ├── chinese-translation.png
-    └── spanish-translation.png
-```
-
 ## 📝 Project Summary
 
 This project demonstrates how multiple AWS services can work together to build an automated, conversational language translation solution without managing traditional servers.
