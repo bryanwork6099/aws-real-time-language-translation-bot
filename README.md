@@ -1,58 +1,87 @@
-# Real-Time Language Translation Bot
+# 🌐 Real-Time Language Translation Bot
 
-An interactive, serverless language translation chatbot built using Amazon Lex, AWS Lambda, and Amazon Translate. The chatbot allows users to request translations through natural language conversations and automatically translates their input into their selected target language.
+A serverless, conversational language translation chatbot built using **Amazon Lex, AWS Lambda, and Amazon Translate**. Users can interact with the chatbot, select a target language, and receive translated text through a simple conversational interface.
 
-## Project Overview
+## 📌 Project Overview
 
-This project demonstrates how AWS services can be integrated to build a conversational language translation application.
+This project demonstrates how multiple AWS services can be integrated to develop an automated language translation solution using a serverless architecture.
 
 Users interact with an Amazon Lex chatbot by specifying their preferred target language and entering the text they want to translate. AWS Lambda processes the request and invokes Amazon Translate to perform the translation automatically.
 
-The translated result is then returned to the user through the chatbot.
+The translated result is then returned to the user through Amazon Lex.
 
-## AWS Services Used
+### ✨ Project Highlights
 
-- **Amazon Lex:** Builds the chatbot, manages conversation flow, and collects user input through intents and slots.
-- **Amazon Translate:** Automatically translates text into the selected target language.
-- **AWS Lambda:** Processes chatbot requests and invokes Amazon Translate to perform translations.
-- **AWS IAM:** Manages permissions and securely controls access between AWS services.
+- Conversational chatbot interface powered by Amazon Lex.
+- Automated text translation using Amazon Translate.
+- Serverless processing through AWS Lambda.
+- Automatic source language detection.
+- Support for multiple target languages.
+- Secure service integration using AWS IAM.
 
-## Architecture
+## ☁️ AWS Services Used
 
-The application follows a serverless architecture where Amazon Lex handles user interactions, Lambda processes translation requests, and Amazon Translate performs the actual translation.
+| AWS Service | Purpose |
+|---|---|
+| **Amazon Lex** | Builds the chatbot and manages conversation flow, intents, and slots. |
+| **AWS Lambda** | Processes translation requests and invokes Amazon Translate. |
+| **Amazon Translate** | Performs automatic text translation. |
+| **AWS IAM** | Manages permissions and secure access between AWS services. |
+
+## 🏗️ Architecture
+
+The application follows a serverless architecture where Amazon Lex handles user interactions, AWS Lambda processes translation requests, and Amazon Translate performs the actual translation.
 
 ![AWS Real-Time Language Translation Bot Architecture](images/Language-Translate-Bot-Topology.png)
 
 ### Process Workflow
 
-1. User interacts with the Amazon Lex chatbot.
-2. Amazon Lex identifies the user's translation request through the `TranslationIntent`.
-3. The chatbot collects two required inputs:
-   - Target language
-   - Text to translate
-4. Amazon Lex invokes the associated AWS Lambda function.
-5. Lambda extracts the user's input and target language.
-6. Lambda calls Amazon Translate to perform the translation.
-7. Amazon Translate returns the translated text.
-8. Lambda sends the translated result back to Amazon Lex.
-9. Amazon Lex displays the translated text to the user.
+1. **User Request:** User interacts with the Amazon Lex chatbot and requests a translation.
+2. **Intent Recognition:** Amazon Lex identifies the request through `TranslationIntent`.
+3. **Input Collection:** The chatbot collects the target language and text to translate.
+4. **Lambda Invocation:** Amazon Lex invokes the associated AWS Lambda function.
+5. **Request Processing:** Lambda extracts the user's input and target language.
+6. **Translation Request:** Lambda calls the Amazon Translate API.
+7. **Text Translation:** Amazon Translate detects the source language and translates the text.
+8. **Response Handling:** Lambda returns the translated result to Amazon Lex.
+9. **User Response:** Amazon Lex displays the translated text to the user.
 
-## Supported Languages
+## 🌍 Supported Languages
 
-The chatbot supports the following target languages:
+The chatbot currently supports the following target languages:
 
 | Language | Language Code |
 |---|---|
-| French | fr |
-| Japanese | ja |
-| Chinese | zh |
-| Spanish | es |
-| German | de |
-| Norwegian | no |
+| French | `fr` |
+| Japanese | `ja` |
+| Chinese | `zh` |
+| Spanish | `es` |
+| German | `de` |
+| Norwegian | `no` |
 
 Amazon Translate automatically detects the source language using the `auto` source language setting.
 
-## Implementation Steps
+## 🖥️ Translation Results
+
+Below are screenshots demonstrating successful translation requests using different target languages.
+
+### 🇫🇷 French Translation
+
+![French Translation](images/french-translation.png)
+
+### 🇯🇵 Japanese Translation
+
+![Japanese Translation](images/japanese-translation.png)
+
+### 🇨🇳 Chinese Translation
+
+![Chinese Translation](images/chinese-translation.png)
+
+### 🇪🇸 Spanish Translation
+
+![Spanish Translation](images/spanish-translation.png)
+
+## ⚙️ Implementation Steps
 
 ### 1. Create an Amazon Lex Bot
 
@@ -99,12 +128,12 @@ Add the following slots to `TranslationIntent`:
 
 | Slot Name | Slot Type | Prompt |
 |---|---|---|
-| language | language (Custom Slot Type) | In which language would you like to translate the text? |
-| text | AMAZON.FreeFormInput | Please input the text you want to translate. |
+| `language` | Custom Slot Type: `language` | In which language would you like to translate the text? |
+| `text` | `AMAZON.FreeFormInput` | Please input the text you want to translate. |
 
 Configure the initial response:
 
-"Sure, I can help you with that!"
+> Sure, I can help you with that!
 
 Configure the fulfilment responses:
 
@@ -115,13 +144,13 @@ Enable **Use a Lambda function for fulfilment** under Advanced Options.
 
 Configure the closing response:
 
-"I hope the translation was helpful."
+> I hope the translation was helpful.
 
 ### 4. Create an IAM Role for Lambda
 
-Navigate to IAM and create a new role.
+Navigate to AWS IAM and create a new role.
 
-Configuration:
+**Configuration:**
 
 - Trusted Entity: AWS Service
 - Use Case: Lambda
@@ -131,17 +160,15 @@ Attach the following permission policies:
 - `TranslateFullAccess`
 - `AWSLambdaBasicExecutionRole`
 
-Role Name:
+**Role Name:** `LambdaBotRole`
 
-`LambdaBotRole`
-
-**Security Note:** For a production environment, replace broad TranslateFullAccess permissions with a custom least-privilege IAM policy granting only the required Amazon Translate permissions.
+**Security Note:** For production environments, replace broad TranslateFullAccess permissions with a custom least-privilege IAM policy granting only the required Amazon Translate permissions.
 
 ### 5. Create the AWS Lambda Function
 
 Navigate to AWS Lambda and create a function.
 
-Configuration:
+**Configuration:**
 
 - Creation Method: Author from Scratch
 - Function Name: `TranslateBot`
@@ -152,7 +179,7 @@ Configuration:
 
 Replace the default Lambda code with the Python implementation provided in the `docs` folder.
 
-**Source Code:** [docs/lambda_function.py](docs/lambda_function.py)
+**Source Code:** [lambda_function.py](docs/lambda_function.py)
 
 Select **Deploy** after adding the code.
 
@@ -164,13 +191,13 @@ Create a test event named:
 
 Use the test event JSON provided in:
 
-[docs/test-event.json](docs/test-event.json)
+[test-event.json](docs/test-event.json)
 
 The test event contains sample input text and the target language required to simulate an Amazon Lex request.
 
 Select **Test** to execute the Lambda function.
 
-Expected translated output:
+**Expected Output:**
 
 `Bonjour`
 
@@ -192,7 +219,7 @@ Ensure the Lambda function is associated with the correct bot alias and language
 
 Open the Amazon Lex testing console and test the chatbot using different languages.
 
-Example interaction:
+**Example Conversation:**
 
 **User:** I want to translate in French.
 
@@ -206,20 +233,18 @@ Example interaction:
 
 **Chatbot:** Bonjour.
 
-## Testing Results
+## 🧪 Testing Results
 
 The chatbot successfully processes translation requests and returns translated text for different target languages.
-
-Example test cases:
 
 | Input Text | Target Language | Expected Translation |
 |---|---|---|
 | Hello | French | Bonjour |
 | Hello | Japanese | こんにちは |
+| Hello | Chinese | 你好 |
 | Hello | Spanish | Hola |
-| Hello | German | Hallo |
 
-## Key Learning Outcomes
+## 📚 Key Learning Outcomes
 
 Through this project, I gained practical experience in:
 
@@ -227,4 +252,37 @@ Through this project, I gained practical experience in:
 - Configuring intents, sample utterances, custom slot types, and slot prompts.
 - Integrating AWS Lambda with Amazon Lex fulfilment.
 - Using Amazon Translate API through the AWS SDK for Python (Boto3).
-- Implementing automatic source language detection
+- Implementing automatic source language detection.
+- Configuring IAM roles and permissions for AWS service integration.
+- Developing serverless applications using managed AWS services.
+
+## 📁 Repository Structure
+
+```text
+aws-real-time-language-translation-bot/
+│
+├── README.md
+│
+├── docs/
+│   ├── lambda_function.py
+│   └── test-event.json
+│
+└── images/
+    ├── Language-Translate-Bot-Topology.png
+    ├── french-translation.png
+    ├── japanese-translation.png
+    ├── chinese-translation.png
+    └── spanish-translation.png
+```
+
+## 📝 Project Summary
+
+This project demonstrates how multiple AWS services can work together to build an automated, conversational language translation solution without managing traditional servers.
+
+By combining Amazon Lex, AWS Lambda, and Amazon Translate, users can translate text through a simple chatbot interface.
+
+**Architecture:** Amazon Lex → AWS Lambda → Amazon Translate → AWS Lambda → Amazon Lex
+
+---
+
+*Built as part of my hands-on AWS cloud and serverless application development portfolio.*
